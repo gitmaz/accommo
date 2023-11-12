@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  frontend:
+    image: node:14 # You can adjust the Node.js version if needed
+    # Alternatively, use the official Node.js image with customization in local frontend/Dockerfile
+    # build:
+    #  context: ./frontend
+    #  dockerfile: Dockerfile
+    working_dir: /app/frontend
+    volumes:
+      - ./frontend:/app/frontend
+    ports:
+      - "8080:8080"
+    command: npm run serve
+
+  backend:
+    image: php:8.2-apache # You can adjust the PHP version if needed
+    # Alternatively, use the official PHP image with customization from local backend/Dockerfile
+    # build:
+    #  context: ./backend
+    #  dockerfile: Dockerfile
+    working_dir: /app/backend
+    volumes:
+      - ./backend:/app/backend
+      - ./backend/apache-config/apache.conf:/etc/apache2/sites-available/000-default.conf
+    ports:
+      - "8000:80"
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html/public
+    command: [ "apache2-foreground" ]
