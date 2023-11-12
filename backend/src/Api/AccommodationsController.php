@@ -46,7 +46,12 @@ class AccommodationsController
         }
 
         $accommodations = array_map(function ($accommodation) {
-            $AddressLine2AsArray = is_array($accommodation['addresses']['address']["address_line2"])
+
+            $addressLineAsArray = is_array($accommodation['addresses']['address']["address_line"])
+                ? $accommodation['addresses']['address']["address_line"]
+                : [$accommodation['addresses']['address']["address_line"]];
+
+            $addressLine2AsArray = is_array($accommodation['addresses']['address']["address_line2"])
                 ? $accommodation['addresses']['address']["address_line2"]
                 : [$accommodation['addresses']['address']["address_line2"]];
 
@@ -60,8 +65,8 @@ class AccommodationsController
                 'state' => $accommodation['addresses']['address']['state'] ?? "",
                 'suburb' => $accommodation['addresses']['address']['city'] ?? "",
                 'postcode' => $accommodation['addresses']['address']['postcode'] ?? "",
-                'address' => ($accommodation['addresses']['address']["address_line"] ?? "") . " "
-                    . (implode(", ", $AddressLine2AsArray)),
+                'address' => ( implode(', ', $addressLineAsArray)) . " "
+                    . (implode(", ", $addressLine2AsArray)),
             ];
         }, $accommodations);
 
