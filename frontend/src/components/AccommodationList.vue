@@ -5,8 +5,18 @@
       <h3 class="section-title">Accommodations in {{ (selectedAreaName ?? "") + (selectedAreaName &&  selectedSuburbName ? " or " : "") + ( selectedSuburbName ?? "") }}</h3>
       <ul class="accommodation-list">
         <li v-for="accommodation in accommodations" :key="accommodation.id" class="accommodation-item">
-          {{ accommodation.name }} - {{ accommodation.description }}
-          <button @click="viewDetails(accommodation)" class="details-button">View Details</button>
+          <div class="accommodation-info">
+            <img :src="accommodation.image" alt="Accommodation Image" class="accommodation-image" />
+            <div class="accommodation-details">
+              <div class="name-box">
+                <span class="name">{{ accommodation.name }}</span>
+              </div>
+              <div class="description-box">
+                <span class="description">{{ truncateDescription(accommodation.description) }}</span>
+              </div>
+              <button @click="viewDetails(accommodation)" class="details-button">View Details</button>
+            </div>
+          </div>
         </li>
       </ul>
 
@@ -26,7 +36,6 @@
     <h3>Please first select an area or suburb!</h3>
   </div>
 </template>
-
 
 <script>
 import AccommodationDetailModal from '@/components/AccommodationDetailModal.vue';
@@ -89,6 +98,13 @@ export default {
     closeModal() {
       this.selectedAccommodation = null;
     },
+    // Truncate description if it's longer than 200 characters
+    truncateDescription(description) {
+      if (description.length > 200) {
+        return description.substring(0, 200) + '...';
+      }
+      return description;
+    },
   },
   // Fetch accommodations when the component is mounted
   mounted() {
@@ -110,10 +126,50 @@ export default {
 
 .accommodation-item {
   margin-bottom: 10px;
+  position: relative; /* Set position to relative */
+}
+
+.accommodation-info {
+  display: flex;
+  align-items: flex-start; /* Align items to the top */
+}
+
+.accommodation-image {
+  max-width: 250px; /* Adjusted to be 2.5 times bigger */
+  margin-right: 10px;
+}
+
+.accommodation-details {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  justify-content: flex-start; /* Align items to the top */
+}
+
+.name-box {
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.name {
+  font-weight: bold;
+}
+
+.description-box {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.description {
+  text-align: right;
+  max-height: 40px; /* Limit the height of description */
+  overflow: hidden;
 }
 
 .details-button {
-  margin-left: 10px;
+  position: absolute; /* Set position to absolute */
+  bottom: 0; /* Align to the bottom */
+  right: 0; /* Align to the right */
   padding: 5px 10px;
 }
 
@@ -135,3 +191,6 @@ export default {
   margin-top: 20px;
 }
 </style>
+
+
+
