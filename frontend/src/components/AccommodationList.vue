@@ -47,7 +47,7 @@ export default {
   },
   props: {
     selectedSuburb: {
-      type: Number,
+      type: ApiService.isUsingMockApi() ? Number : String,
       required: false,
     },
     selectedSuburbName: {
@@ -55,7 +55,7 @@ export default {
       required: false,
     },
     selectedArea: {
-      type: Number,
+      type: ApiService.isUsingMockApi() ? Number : String,
       required: false,
     },
     selectedAreaName: {
@@ -80,7 +80,7 @@ export default {
     // Fetch accommodations based on the selected suburb and page
     // eslint-disable-next-line no-unused-vars
     fetchAccommodations(newPage = 1) {
-      ApiService.get(`/accommodations?suburbId=${this.selectedSuburb}&areaId=${this.selectedArea}&page=${newPage}`)
+      ApiService.get(`/accommodations?suburb=${this.selectedSuburb}&area=${this.selectedArea}&page=${newPage}`)
           .then(response => {
             this.accommodations = response.data.results;
             this.totalPages = response.data.totalPages;

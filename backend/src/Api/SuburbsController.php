@@ -35,7 +35,7 @@ class SuburbsController{
         //filter only useful fields
         $suburbs = array_map(function ($suburb) {
             return [
-                'id' => $suburb['SuburbId'],
+                'id' => $suburb['Name'],
                 'postCode' => $suburb['PostCode'],
                 'name' =>  $suburb['Name'],
                 'namePlusPostcode' => !is_array($suburb['Name']) ? $suburb['Name']." ".$suburb['PostCode'] : null

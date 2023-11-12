@@ -19,8 +19,8 @@ class AccommodationsController{
 
         $httpService = new HttpService("https://atlas.atdw-online.com.au/api/atlas/");
 
-        $areaQueryStr= $area ? "ar=$area" : "";
-        $suburbQueryStr= $suburb ? "ct=$suburb" : "";
+        $areaQueryStr= $area ? ( $area!=="null" ? "ar=$area" : "") : "";
+        $suburbQueryStr= $suburb ? ( $suburb!=="null" ? "ct=$suburb" : "") : "";
         $queryStr= $areaQueryStr ? $areaQueryStr.($suburbQueryStr? "&$suburbQueryStr":"") : $suburbQueryStr;
 
 
@@ -60,7 +60,8 @@ class AccommodationsController{
             ];
         }, $accommodations);
 
-        echo json_encode($accommodations);
+        //todo: implement pagination logic
+        echo json_encode(["results"=>$accommodations, "totalPages" =>1]);
     }
 
     public function getDetails($queryParams){

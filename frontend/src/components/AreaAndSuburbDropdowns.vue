@@ -2,12 +2,12 @@
 <template>
   <div class="area-suburb-dropdowns">
     <label for="area" class="dropdown-label">Select Area:</label>
-    <select v-model="selectedArea" @change="handleAreaOrSuburbChange('area')" class="dropdown-select">
+    <select v-model="selectedArea" id="area" @change="handleAreaOrSuburbChange('area')" class="dropdown-select">
       <option v-for="area in areas" :key="area.id" :value="area.id">{{ area.name }}</option>
     </select>
 
     <label for="suburb" class="dropdown-label">Select Suburb:</label>
-    <select v-model="selectedSuburb" @change="handleAreaOrSuburbChange('suburb')" class="dropdown-select">
+    <select v-model="selectedSuburb" id="suburb" @change="handleAreaOrSuburbChange('suburb')" class="dropdown-select">
       <option v-for="suburb in suburbs" :key="suburb.id" :value="suburb.id">{{ suburb.name }}</option>
     </select>
   </div>
@@ -29,7 +29,7 @@ export default {
   methods: {
     // Fetch areas on component mount
     fetchAreas() {
-      ApiService.get('/areas')
+      ApiService.get('/sydney-areas') // /areas
           .then(response => {
             this.areas = response.data;
           })

@@ -1,10 +1,12 @@
 // data.service.js
 import axios from 'axios';
 
+const isApiMock = false; //set to false to use real api, true to use mock api (useful for ui development detached from ATLAS)
+
 const ApiService = {
+    isApiMock: isApiMock, //set to false to use real api version
     // Set the base URL for your backend API
-    baseURL: 'http://127.0.0.1:8000/api-mock', //uncomment to use the mock
-    //baseURL: 'http://127.0.0.1:8000/api',    //uncomment to use the final api
+    baseURL: isApiMock ? 'http://127.0.0.1:8000/api-mock' : 'http://127.0.0.1:8000/api',
 
     // Function to initialize the API service with the base URL
     init() {
@@ -21,11 +23,9 @@ const ApiService = {
         return this.get(`/suburbs`);
     },
 
-    // Add more functions for different types of requests (POST, PUT, DELETE, etc.)
-    // Example:
-    // post(resource, data) {
-    //   return axios.post(resource, data);
-    // },
+    isUsingMockApi() {
+        return isApiMock;
+    }
 };
 
 export default ApiService;
