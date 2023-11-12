@@ -1,48 +1,54 @@
 <?php
+
 namespace Api;
 
 use Services\HttpService;
 
-// sample usage:
-// http://127.0.0.1:8000/api/accommodations?area=SCY
-// http://127.0.0.1:8000/api/accommodations?area=SCY
-class AccommodationsController{
-
-    public function index($queryParams){
-
+/**
+ * Class AccommodationsController
+ *
+ * This class handles the API endpoints related to accommodations.
+ *
+ * @package Api
+ */
+class AccommodationsController
+{
+    /**
+     * Handles the 'index' action, which retrieves a list of accommodations based on the provided filters.
+     *
+     * @param array $queryParams The query parameters.
+     *
+     * @return void
+     */
+    public function index(array $queryParams): void
+    {
         $area = $queryParams['area'] ?? null;
         $suburb = $queryParams['suburb'] ?? null;
 
-        if( $area === null && $suburb === null ){
-           echo "at least one filter (area or suburb) should be included ib query string ex. area=SCY or suburb=Barangaroo";
+        if ($area === null && $suburb === null) {
+            echo "at least one filter (area or suburb) should be included in the query string. For example, area=SCY or suburb=Barangaroo";
         }
 
+        //todo: move all urls to a config file
         $httpService = new HttpService("https://atlas.atdw-online.com.au/api/atlas/");
 
-        $areaQueryStr= $area ? ( $area!=="null" ? "ar=$area" : "") : "";
-        $suburbQueryStr= $suburb ? ( $suburb!=="null" ? "ct=$suburb" : "") : "";
-        $queryStr= $areaQueryStr ? $areaQueryStr.($suburbQueryStr? "&$suburbQueryStr":"") : $suburbQueryStr;
+        $areaQueryStr = $area ? ($area !== "null" ? "ar=$area" : "") : "";
+        $suburbQueryStr = $suburb ? ($suburb !== "null" ? "ct=$suburb" : "") : "";
+        $queryStr = $areaQueryStr ? $areaQueryStr . ($suburbQueryStr ? "&$suburbQueryStr" : "") : $suburbQueryStr;
 
+        $accommodations = $httpService->fetch("products", "cats=ACCOMM&rg=GSY&$queryStr");
 
-        $accommodations = $httpService->fetch("products","cats=ACCOMM&rg=GSY&$queryStr");
-     /*   echo json_encode($accommodations);
-        die();*/
-
-        if($accommodations["number_of_results"] == 1) {
+        if ($accommodations["number_of_results"] == 1) {
             $accommodations = $accommodations["products"]["product_record"] ?? [];
-
-            //prepare to handle one and many results uniform (in following array_map)
             $accommodations = [$accommodations];
-        }else{
+        } else {
             $accommodations = $accommodations["products"]["product_record"] ?? [];
         }
 
-
-        //filter only useful fields
         $accommodations = array_map(function ($accommodation) {
-
-            $AddressLine2AsArray = is_array($accommodation['addresses']['address']["address_line2"]) ? $accommodation['addresses']['address']["address_line2"]
-                                    : [$accommodation['addresses']['address']["address_line2"]] ;
+            $AddressLine2AsArray = is_array($accommodation['addresses']['address']["address_line2"])
+                ? $accommodation['addresses']['address']["address_line2"]
+                : [$accommodation['addresses']['address']["address_line2"]];
 
             return [
                 'id' => $accommodation['product_number'],
@@ -54,17 +60,23 @@ class AccommodationsController{
                 'state' => $accommodation['addresses']['address']['state'] ?? "",
                 'suburb' => $accommodation['addresses']['address']['city'] ?? "",
                 'postcode' => $accommodation['addresses']['address']['postcode'] ?? "",
-                'address' => ($accommodation['addresses']['address']["address_line"] ?? "")." "
+                'address' => ($accommodation['addresses']['address']["address_line"] ?? "") . " "
                     . (implode(", ", $AddressLine2AsArray)),
-
             ];
         }, $accommodations);
 
-        //todo: implement pagination logic
-        echo json_encode(["results"=>$accommodations, "totalPages" =>1]);
+        echo json_encode(["results" => $accommodations, "totalPages" => 1]);
     }
 
-    public function getDetails($queryParams){
-
+    /**
+     * Handles the 'getDetails' action, which retrieves details for a specific accommodation.
+     *
+     * @param array $queryParams The query parameters.
+     *
+     * @return void
+     */
+    public function getDetails(array $queryParams): void
+    {
+        // Implementation for the 'getDetails' action
     }
 }

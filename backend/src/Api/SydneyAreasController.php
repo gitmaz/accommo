@@ -1,12 +1,28 @@
 <?php
+
 namespace Api;
 
+use Services\HttpService;
+use Traits\SimpleCacheTrait;
+
+/**
+ * Class SuburbsController
+ * @package Api
+ */
 class SydneyAreasController extends AreasController
 {
+    use SimpleCacheTrait;
 
-    public function index($queryStr, $outputAsArray=false){
+    /**
+     * Returns all suburbs in a given state.
+     *
+     * @param array $queryParams The query parameters.
+     * @return array
+     */
+    public function index(array $queryParams): array
+    {
 
-        $areas = parent::index($queryStr, true);
+        $areas = parent::index($queryParams);
 
         //only focus on Sydney areas as per requirements:
         /* I am referring:
@@ -23,9 +39,7 @@ class SydneyAreasController extends AreasController
         //base array results starting with zero index
         $sydneyAreas = array_values($sydneyAreas);
 
-        if($outputAsArray){
-            return $sydneyAreas;
-        }
-        echo json_encode($sydneyAreas);
+        return $sydneyAreas;
+
     }
 }

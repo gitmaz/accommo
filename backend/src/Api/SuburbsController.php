@@ -4,41 +4,48 @@ namespace Api;
 use Services\HttpService;
 use Traits\SimpleCacheTrait;
 
-class SuburbsController{
+/**
+ * Class SuburbsController
+ * @package Api
+ */
+class SuburbsController {
 
     use SimpleCacheTrait;
 
     /**
-     * returns all suburbs in a given state (identified by state=<somestate> in querystring defaulted by NSW)
+     * Returns all suburbs in a given state.
+     * Note: if state is not found in query string, it will return NSW suburbs
+     *
+     * @param array $queryParams The query parameters.
+     * @return string|array Returns a JSON-encoded string or an array containing suburb information.
      */
-    public function index($queryParams){
-
+    public function index(array $queryParams): string|array {
         $cacheKey = 'suburbs';
 
         // Attempt to get cached data
         $cachedData = $this->getCachedData($cacheKey);
         if ($cachedData !== false) {
             // Return cached data if available
-            echo json_encode($cachedData);
-            return;
+            return $cachedData;
         }
 
         // Access query parameters
         $state = $queryParams['state'] ?? 'NSW';
 
+        //todo: move all urls to a config file
         $httpService = new HttpService("https://atlas.atdw-online.com.au/api/atlas/");
-        $suburbs = $httpService->fetch("suburbs","st=$state");
+        $suburbs = $httpService->fetch("suburbs", "st=$state");
 
-        //extract useful info from result
-        $suburbs=$suburbs["SuburbByState"]["Suburbs"]["suburb"];
+        // Extract useful info from result
+        $suburbs = $suburbs["SuburbByState"]["Suburbs"]["suburb"];
 
-        //filter only useful fields
+        // Filter only useful fields
         $suburbs = array_map(function ($suburb) {
             return [
                 'id' => $suburb['Name'],
                 'postCode' => $suburb['PostCode'],
-                'name' =>  $suburb['Name'],
-                'namePlusPostcode' => !is_array($suburb['Name']) ? $suburb['Name']." ".$suburb['PostCode'] : null
+                'name' => $suburb['Name'],
+                'namePlusPostcode' => !is_array($suburb['Name']) ? $suburb['Name'] . " " . $suburb['PostCode'] : null,
             ];
         }, $suburbs);
 
@@ -52,8 +59,7 @@ class SuburbsController{
         // Cache the data for a day
         $this->cacheData($cacheKey, $suburbs, 86400);
 
+        return $suburbs;
 
-        echo json_encode($suburbs);
     }
-
 }

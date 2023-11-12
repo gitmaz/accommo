@@ -1,14 +1,27 @@
 <?php
+
 namespace Api;
 
 use Services\HttpService;
 use Traits\SimpleCacheTrait;
 
-class AreasController{
+/**
+ * Class AreasController
+ * @package Api
+ */
+class AreasController
+{
 
     use SimpleCacheTrait;
 
-    public function index($queryStr, $outputAsArray=false){
+    /**
+     * Fetch areas and optionally output as an array.
+     *
+     * @param array $queryParams The query parameters.
+     * @return array|void
+     */
+    public function index(array $queryParams) :array|null
+    {
 
         $cacheKey = 'areas';
 
@@ -16,18 +29,14 @@ class AreasController{
         $cachedData = $this->getCachedData($cacheKey);
         if ($cachedData !== false) {
             // Return cached data if available
-            if ($outputAsArray) {
-                return $cachedData;
-            }
-
-            echo json_encode($cachedData);
-            return;
+            return $cachedData;
         }
 
+        //todo: move all urls to a config file
         $httpService = new HttpService("https://atlas.atdw-online.com.au/api/atlas/");
         $result = $httpService->fetch("areas");
 
-        $areas =$result["Area"] ?? [];
+        $areas = $result["Area"] ?? [];
 
         // Extract only the 'AreaId' and 'Name' properties
         $areas = array_map(function ($area) {
@@ -43,9 +52,6 @@ class AreasController{
         // Cache the data for a day
         $this->cacheData($cacheKey, $areas, 86400);
 
-        if($outputAsArray){
-            return $areas;
-        }
-        echo json_encode($areas);
+        return $areas;
     }
 }
