@@ -8,7 +8,8 @@ class SydneyAreasControllerTest extends TestCase
     public function testIndexReturnsCorrectJson()
     {
         // Replace this URL with the actual URL of your API
-        $apiUrl = 'http://127.0.0.1:8000/sydney-areas';
+        //todo: move all urls to a config file
+        $apiUrl = 'http://127.0.0.1:8000/api/sydney-areas';
 
         $client = new Client();
         $response = $client->get($apiUrl);

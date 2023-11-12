@@ -9,7 +9,8 @@ class AccommodationsControllerTest extends TestCase
     public function testAccommodationsInAreaSCY()
     {
         // Url for accommodations in SCY (Sydney City)
-        $apiUrlSCY = 'http://127.0.0.1:8000/accommodations?area=SCY';
+        //todo: move all urls to a config file
+        $apiUrlSCY = 'http://127.0.0.1:8000/api/accommodations?area=SCY';
 
         $client = new Client();
         $responseSCY = $client->get($apiUrlSCY);
