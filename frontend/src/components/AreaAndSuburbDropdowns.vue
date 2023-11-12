@@ -8,7 +8,7 @@
 
     <label for="suburb" class="dropdown-label">Select Suburb:</label>
     <select v-model="selectedSuburb" id="suburb" @change="handleAreaOrSuburbChange('suburb')" class="dropdown-select">
-      <option v-for="suburb in suburbs" :key="suburb.id" :value="suburb.id">{{ suburb.name }}</option>
+      <option v-for="suburb in suburbs" :key="suburb.id" :value="suburb.id">{{ suburb.name }} {{ suburb.postCode }}</option>
     </select>
   </div>
 </template>

@@ -13,7 +13,7 @@ class AreasController{
         $cacheKey = 'areas';
 
         // Attempt to get cached data
-        /*$cachedData = $this->getCachedData($cacheKey);
+        $cachedData = $this->getCachedData($cacheKey);
         if ($cachedData !== false) {
             // Return cached data if available
             if ($outputAsArray) {
@@ -22,7 +22,7 @@ class AreasController{
 
             echo json_encode($cachedData);
             return;
-        }*/
+        }
 
         $httpService = new HttpService("https://atlas.atdw-online.com.au/api/atlas/");
         $result = $httpService->fetch("areas");

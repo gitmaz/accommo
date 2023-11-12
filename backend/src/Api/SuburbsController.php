@@ -16,12 +16,12 @@ class SuburbsController{
         $cacheKey = 'suburbs';
 
         // Attempt to get cached data
-        /*$cachedData = $this->getCachedData($cacheKey);
+        $cachedData = $this->getCachedData($cacheKey);
         if ($cachedData !== false) {
             // Return cached data if available
             echo json_encode($cachedData);
             return;
-        }*/
+        }
 
         // Access query parameters
         $state = $queryParams['state'] ?? 'NSW';
