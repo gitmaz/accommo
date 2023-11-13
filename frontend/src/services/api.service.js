@@ -1,10 +1,10 @@
-// data.service.js
+// api.service.js
 import axios from 'axios';
 
-const isApiMock = false; //set to false to use real api, true to use mock api (useful for ui development detached from ATLAS)
+const isApiMock = false; // set to false to use real api, true to use mock api (useful for ui development detached from ATLAS)
 
 const ApiService = {
-    isApiMock: isApiMock, //set to false to use real api version
+    isApiMock: isApiMock, // set to false to use the real api version
     // Set the base URL for your backend API
     baseURL: isApiMock ? 'http://127.0.0.1:8000/api-mock' : 'http://127.0.0.1:8000/api',
 
@@ -23,9 +23,14 @@ const ApiService = {
         return this.get(`/suburbs`);
     },
 
+    // New function to fetch suburbs based on the selected area
+    getAreaSuburbs(areaId) {
+        return this.get(`/sydney-area-suburbs?area=${areaId}`);
+    },
+
     isUsingMockApi() {
         return isApiMock;
-    }
+    },
 };
 
 export default ApiService;

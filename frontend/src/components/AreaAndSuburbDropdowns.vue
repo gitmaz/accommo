@@ -1,35 +1,34 @@
-<!-- AreaAndSuburbDropdowns.vue -->
+<!-- AreaAndSuburbDropdown.vue -->
 <template>
-  <div class="area-suburb-dropdowns">
-    <label for="area" class="dropdown-label">Select Area:</label>
-    <select v-model="selectedArea" id="area" @change="handleAreaOrSuburbChange('area')" class="dropdown-select">
+  <div>
+    <label for="areaDropdown">Select Area: </label>
+    <select id="areaDropdown" v-model="selectedArea" @change="fetchAreaSuburbs">
       <option v-for="area in areas" :key="area.id" :value="area.id">{{ area.name }}</option>
     </select>
 
-    <label for="suburb" class="dropdown-label">Select Suburb:</label>
-    <select v-model="selectedSuburb" id="suburb" @change="handleAreaOrSuburbChange('suburb')" class="dropdown-select">
-      <option v-for="suburb in suburbs" :key="suburb.id" :value="suburb.id">{{ suburb.name }} {{ suburb.postCode }}</option>
+    <label for="suburbDropdown">Select Suburb: </label>
+    <select id="suburbDropdown" v-model="selectedSuburb" @change="handleAreaOrSuburbChange('suburb')">
+      <option v-for="suburb in suburbs" :key="suburb.id" :value="suburb.id">{{ suburb.name }}</option>
     </select>
   </div>
 </template>
 
 <script>
-//import { ref, onMounted } from 'vue';
 import ApiService from '@/services/api.service';
 
 export default {
   data() {
     return {
-      areas: [], // List of areas
-      suburbs: [], // List of suburbs
-      selectedArea: null, // Selected area
-      selectedSuburb: null, // Selected suburb
+      areas: [],
+      suburbs: [],
+      selectedArea: null,
+      selectedSuburb: null,
     };
   },
   methods: {
-    // Fetch areas on component mount
+    // Fetch areas when the component is mounted
     fetchAreas() {
-      ApiService.get('/sydney-areas') // /areas
+      ApiService.get('/sydney-areas')
           .then(response => {
             this.areas = response.data;
           })
@@ -37,16 +36,29 @@ export default {
             console.error(error);
           });
     },
-    fetchSuburbs() {
-      ApiService.getSuburbs()
-          .then(response => {
-            this.suburbs = response.data;
-          })
-          .catch(error => {
-            console.error(error);
-          });
+
+    // Fetch suburbs based on the selected area
+    fetchAreaSuburbs() {
+      if (this.selectedArea) {
+        ApiService.getAreaSuburbs(this.selectedArea)
+            .then(response => {
+              this.suburbs = response.data;
+            })
+            .catch(error => {
+              console.error(error);
+            });
+
+        this.handleAreaOrSuburbChange('area')
+      }
     },
+
     handleAreaOrSuburbChange(selectedDropdown) {
+
+      /*if(selectedDropdown === 'suburb'){
+        console.log(this.selectedSuburb);
+        return;
+      }*/
+
       const selectedArea = this.areas.find(area => area.id === this.selectedArea);
       const selectedSuburb = this.suburbs.find(suburb => suburb.id === this.selectedSuburb);
 
@@ -65,9 +77,6 @@ export default {
       if (selectedDropdown === 'area') {
         this.selectedSuburb = null;
         this.selectedSuburbName = null;
-      } else {
-        this.selectedArea = null;
-        this.selectedAreaName = null;
       }
 
     },
@@ -75,22 +84,10 @@ export default {
   // Fetch areas when the component is mounted
   mounted() {
     this.fetchAreas();
-    this.fetchSuburbs();
   },
 };
 </script>
 
 <style scoped>
-.area-suburb-dropdowns {
-  margin-bottom: 20px;
-}
-
-.dropdown-label {
-  margin-right: 10px;
-  font-weight: bold;
-}
-
-.dropdown-select {
-  padding: 8px;
-}
+/* Add your styles here */
 </style>

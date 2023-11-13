@@ -57,14 +57,5 @@
 
 
 @@@ Known design shortcomings:
-  the ATLAS had a problem retrieving accommodations that if an area + the suburb in that area is passed as query string,
-  (using ar and ct keys), it didn't returned anything. At the timeframe of developement, I was not able to make suburb dropdown as detail of area dropdown
-  (which is logical solution). I also needed to clear one when other was selected in fe.
-
-  Also, I could not find a way to filter suburbs of greater sydney area as suburbs endpoint only was accepting state as input,
-  so the dropdown for suburbs, is not realy only suburbs of sydney, but suburbs of NSW state.
-
-  Update: I found out later that /locations endpoint categorises the suburbs by their area. So the solution to
-  make these two dropdowns as master detail, is to fill suburb dropdown on selection of area dropdown via calling ATLAS
-  /locations and filtering the results by the selected area (instead o filling the suburb dropdown by calling /suburbs endpoint
-  which is currently being implemented).
+  at the moment area\suburb dropdowns work as master\detail, but the suburb dropdown only gets filled only for Sydney City
+  area. I am investigating the issue

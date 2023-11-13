@@ -33,11 +33,11 @@ class SydneyAreaSuburbsController  {
         $cacheKey = "sydney-area-$areaCode-suburbs";
 
         // Attempt to get cached data
-        /*$cachedData = $this->getCachedData($cacheKey);
+        $cachedData = $this->getCachedData($cacheKey);
         if ($cachedData !== false) {
             // Return cached data if available
             return $cachedData;
-        }*/
+        }
 
         // only keep locations whose area code is as given
         $locations = array_filter($locations, function ($location) use ($areaCode){
