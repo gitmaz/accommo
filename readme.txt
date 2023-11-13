@@ -55,7 +55,8 @@
    or for running all tests:
   php vendor/bin/phpunit
 
-
-@@@ Known design shortcomings:
-  at the moment area\suburb dropdowns work as master\detail, but the suburb dropdown only gets filled only for Sydney City
-  area. I am investigating the issue
+@@@ design note:
+  I have used the areas endpoint from ATLAS to find out which areas is in Sydney by filtering word "Sydney" which is a bit
+  risky if in future other areas without having Sydney as part of their name will be added. It is safer to use /locations
+  endpoint and filter by DomesticAreaName=='Greater Sydney'. The LocationsController can be consulted in a SydneyAreasController
+  if that needs to be implemented.

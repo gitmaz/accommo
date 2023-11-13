@@ -25,7 +25,7 @@ const ApiService = {
 
     // New function to fetch suburbs based on the selected area
     getAreaSuburbs(areaId) {
-        return this.get(`/sydney-area-suburbs?area=${areaId}`);
+        return this.get(`/sydney-area-suburbs?area=${areaId}&XDEBUG_SESSION_START=16070`);
     },
 
     isUsingMockApi() {
