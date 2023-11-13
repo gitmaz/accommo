@@ -18,9 +18,9 @@ class AccommodationsController
      *
      * @param array $queryParams The query parameters.
      *
-     * @return void
+     * @return array
      */
-    public function index(array $queryParams): void
+    public function index(array $queryParams): array
     {
         $area = $queryParams['area'] ?? null;
         $suburb = $queryParams['suburb'] ?? null;
@@ -69,8 +69,8 @@ class AccommodationsController
                     . (implode(", ", $addressLine2AsArray)),
             ];
         }, $accommodations);
-
-        echo json_encode(["results" => $accommodations, "totalPages" => 1]);
+        
+        return ["results" => $accommodations, "totalPages" => 1];
     }
 
     /**

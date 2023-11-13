@@ -50,7 +50,7 @@ try {
             // Call the action method
             $queryParams = $_GET;
             $result = $controller->$action($queryParams);
-            echo rtrim(json_encode($result),"null"); //rtrim is a quick bug fix, null was appearing at the end
+            echo json_encode($result);//rtrim(json_encode($result),"null"); //rtrim is a quick bug fix, null was appearing at the end
         } else {
             http_response_code(404);
             echo 'Not Found - Action method not found';
