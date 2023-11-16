@@ -15,7 +15,9 @@ use Services\HttpService;
 
 try {
     // Get the requested URL
-    $requestUri = $_SERVER['REQUEST_URI'];
+
+    /* passing action as part of url
+     $requestUri = $_SERVER['REQUEST_URI'];
 
     // Remove the query string from the URL
     $requestUri = strtok($_SERVER['REQUEST_URI'], '?');
@@ -27,11 +29,26 @@ try {
     $requestUri = trim($requestUri, '/');
     $urlSegments = explode('/', $requestUri);
 
-    // Extract the controller name and action method
+     // Extract the controller name and action method
     $controllerName = snakeToCamelCase($urlSegments[0] ?? '', true);
     $controllerName .= "Controller";
-
     $action = $urlSegments[1] ?? 'index';
+    */
+
+
+   //using old way (send action as querystring)
+   $action = $_GET["action"] ?? null;
+    $action = str_replace("api/", "", $action);
+    //$actionParts =explode("/", $action);
+    //$action = $actionParts[1] ?? "index";
+    $controllerName= $action;//$actionParts[0] ?? null;
+    // Extract the controller name and action method
+    $controllerName = snakeToCamelCase($controllerName ?? '', true);
+    $controllerName .= "Controller";
+
+
+
+
 
     // Define the path to the controller file
     $controllerFile = __DIR__ . '/../src/Api/' . $controllerName . '.php';
