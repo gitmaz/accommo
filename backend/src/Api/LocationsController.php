@@ -23,11 +23,11 @@ class LocationsController {
         $cacheKey = 'locations';
 
         // Attempt to get cached data
-        /*$cachedData = $this->getCachedData($cacheKey);
-        if ($cachedData !== false) {
+        $cachedData = $this->getCachedData($cacheKey);
+        if ($cachedData && $cachedData !== false) {
             // Return cached data if available
             return $cachedData;
-        }*/
+        }
 
         // Access query parameters
         $state = $queryParams['state'] ?? 'NSW';

@@ -34,7 +34,7 @@ class SydneyAreaSuburbsController  {
 
         // Attempt to get cached data
         $cachedData = $this->getCachedData($cacheKey);
-        if ($cachedData !== false) {
+        if ($cachedData && $cachedData !== false) {
             // Return cached data if available
             return $cachedData;
         }
