@@ -190,6 +190,41 @@ export default {
 .no-selection-message {
   margin-top: 20px;
 }
+
+/* Responsive styles for narrower screens */
+@media only screen and (max-width: 600px) {
+  .section-title {
+    font-size: 1.2em!important;;
+    color:red!important;;
+  }
+
+  .accommodation-item {
+    font-size: 0.9em!important;;
+  }
+
+  .accommodation-image {
+    max-width: 200px; /* Adjusted to be 2.5 times bigger */
+    margin-right: 10px;
+  }
+
+  .details-button {
+    margin-left: 5px;
+    padding: 3px 6px;
+  }
+
+  .pagination {
+    margin-top: 5px;
+  }
+
+  .page-button {
+    padding: 3px 6px;
+    margin-right: 3px;
+  }
+
+  .page-info {
+    font-size: 0.9em;
+  }
+}
 </style>
 
 

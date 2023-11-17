@@ -3,8 +3,8 @@
 header('Content-Type: application/json');
 
 // Set CORS headers
-//header('Access-Control-Allow-Origin: http://localhost:8080'); //local
-header('Access-Control-Allow-Origin: http://54.79.206.109:8081'); //prd
+header('Access-Control-Allow-Origin: http://localhost:8081'); //local
+//header('Access-Control-Allow-Origin: http://54.79.206.109:8081'); //prd
 header('Access-Control-Allow-Methods: GET, OPTIONS');
 header('Access-Control-Allow-Headers: Origin, Content-Type, Accept, Authorization');
 
@@ -17,7 +17,7 @@ use Services\HttpService;
 try {
     // Get the requested URL
 
-    /* passing action as part of url
+    // passing action as part of url
      $requestUri = $_SERVER['REQUEST_URI'];
 
     // Remove the query string from the URL
@@ -34,22 +34,18 @@ try {
     $controllerName = snakeToCamelCase($urlSegments[0] ?? '', true);
     $controllerName .= "Controller";
     $action = $urlSegments[1] ?? 'index';
-    */
+
 
 
    //using old way (send action as querystring)
-   $action = $_GET["action"] ?? null;
+   /*$action = $_GET["action"] ?? null;
     $action = str_replace("api/", "", $action);
     //$actionParts =explode("/", $action);
     //$action = $actionParts[1] ?? "index";
     $controllerName= $action;//$actionParts[0] ?? null;
     // Extract the controller name and action method
     $controllerName = snakeToCamelCase($controllerName ?? '', true);
-    $controllerName .= "Controller";
-
-
-
-
+    $controllerName .= "Controller";*/
 
     // Define the path to the controller file
     $controllerFile = __DIR__ . '/../src/Api/' . $controllerName . '.php';
