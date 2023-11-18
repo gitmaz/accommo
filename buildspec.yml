@@ -6,17 +6,17 @@ phases:
       php: 8.2
       nodejs: 18
     commands:
-      - cd /codebuild/output/src/accommo
-      - ls -al  # List the contents of the directory for verificatio
+      - echo "Installing PHP version 8.2 ..."
+      - phpenv global 8.2
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
       # Additional pre-build commands if needed
   build:
     commands:
-      - cd accommo/backend
+      - cd $CODEBUILD_SRC_DIR/accommo/backend
       - composer install
-      - cd ../frontend
+      - cd $CODEBUILD_SRC_DIR/accommo/frontend
       - npm install
       - npm run build
   post_build:
