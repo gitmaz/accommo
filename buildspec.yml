@@ -3,8 +3,8 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      php: 7.4
-      nodejs: 14
+      php: 8.2
+      nodejs: 18
     commands:
       - cd /codebuild/output/src/accommo
       - ls -al  # List the contents of the directory for verificatio
