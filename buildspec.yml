@@ -14,6 +14,7 @@ phases:
       # Additional pre-build commands if needed
   build:
     commands:
+      - ls -al $CODEBUILD_SRC_DIR  # List the contents of the source directory
       - cd $CODEBUILD_SRC_DIR/accommo/backend
       - composer install
       - cd $CODEBUILD_SRC_DIR/accommo/frontend
