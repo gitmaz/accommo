@@ -1,0 +1,26 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      php: 7.4
+      nodejs: 14
+    commands:
+      - cd /codebuild/output/src/accommo
+      - ls -al  # List the contents of the directory for verificatio
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      # Additional pre-build commands if needed
+  build:
+    commands:
+      - cd accommo/backend
+      - composer install
+      - cd ../frontend
+      - npm install
+      - npm run build
+  post_build:
+    commands:
+      - echo Build completed on `date`
+artifacts:
+  files: '**/*'
