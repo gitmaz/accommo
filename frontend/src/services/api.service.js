@@ -6,8 +6,8 @@ const isApiMock = false; // set to false to use real api, true to use mock api (
 const ApiService = {
     isApiMock: isApiMock, // set to false to use the real api version
     // Set the base URL for your backend API
-    baseURL: isApiMock ? 'http://127.0.0.1:8000/api-mock' : 'http://127.0.0.1:8000/api',
-    //baseURL: isApiMock ? 'http://54.79.206.109/api-mock' : 'http://54.79.206.109/api',
+    //baseURL: isApiMock ? 'http://127.0.0.1:8000/api-mock' : 'http://127.0.0.1:8000/api',
+    baseURL: isApiMock ? 'http://54.206.184.124/api-mock' : 'http://54.206.184.124/api',
 
     // Function to initialize the API service with the base URL
     init() {

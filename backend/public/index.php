@@ -3,8 +3,8 @@
 header('Content-Type: application/json');
 
 // Set CORS headers
-header('Access-Control-Allow-Origin: http://localhost:8081'); //local
-//header('Access-Control-Allow-Origin: http://54.79.206.109:8081'); //prd
+//header('Access-Control-Allow-Origin: http://localhost:8081'); //local
+header('Access-Control-Allow-Origin: http://54.206.184.124:8081'); //prd
 header('Access-Control-Allow-Methods: GET, OPTIONS');
 header('Access-Control-Allow-Headers: Origin, Content-Type, Accept, Authorization');
 
