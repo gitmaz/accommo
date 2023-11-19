@@ -1,2 +1,0 @@
-by default nginx will check any $url/index.php
-for anything starting with /api/ we need to use try_files /index.php (redirect to root index)
