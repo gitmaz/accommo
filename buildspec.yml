@@ -15,11 +15,11 @@ phases:
   build:
     commands:
       #- ls -al $CODEBUILD_SRC_DIR  # List the contents of the source directory
-      - cd $CODEBUILD_SRC_DIR/backend
-      - composer install
-      - cd $CODEBUILD_SRC_DIR/frontend
-      - npm install
-      - npm run build
+      #- cd $CODEBUILD_SRC_DIR/backend
+      #- composer install
+      #- cd $CODEBUILD_SRC_DIR/frontend
+      #- npm install
+      #- npm run build
   post_build:
     commands:
       - echo Build completed on `date`

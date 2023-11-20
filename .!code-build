@@ -1,0 +1,2 @@
+keep this to trigger building vendor and done_module libraries - otherwise, rename to:
+.!code-build
