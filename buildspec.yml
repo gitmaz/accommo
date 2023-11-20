@@ -8,20 +8,24 @@ phases:
     commands:
       - echo "Installing PHP version 8.2 ..."
       - phpenv global 8.2
+
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
       # Additional pre-build commands if needed
+
   build:
     commands:
-      #- ls -al $CODEBUILD_SRC_DIR  # List the contents of the source directory
-      #- cd $CODEBUILD_SRC_DIR/backend
-      #- composer install
-      #- cd $CODEBUILD_SRC_DIR/frontend
-      #- npm install
-      #- npm run build
+      - if [ -e "$CODEBUILD_SRC_DIR/.code-build" ]; then
+        cd $CODEBUILD_SRC_DIR/backend && composer install;
+        cd $CODEBUILD_SRC_DIR/frontend && npm install && npm run build;
+        else
+        echo ".code-build not found. Skipping library installations.";
+        fi
+
   post_build:
     commands:
-      - echo Build completed on `date`
+      - echo Build completed on $(date)
+
 artifacts:
   files: '**/*'
