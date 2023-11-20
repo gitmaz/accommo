@@ -16,11 +16,11 @@ phases:
 
   build:
     commands:
-      - if [ -e "$CODEBUILD_SRC_DIR/.code-build" ]; then
+      - if [ -e "$CODEBUILD_SRC_DIR/.!code-build" ]; then
         cd $CODEBUILD_SRC_DIR/backend && composer install;
         cd $CODEBUILD_SRC_DIR/frontend && npm install && npm run build;
         else
-        echo ".code-build not found. Skipping library installations.";
+        echo ".!code-build not found. Skipping library installations.";
         fi
 
   post_build:
