@@ -1,0 +1,8 @@
+cd ./backend
+composer install
+mv /var/www/html/backend/vendor /var/www/vendor_backup
+cd ..
+cd ./frontend
+npm install
+mv /var/www/html/frontend/node_modules /var/www/node_modules_backup
+ls /var/www/
