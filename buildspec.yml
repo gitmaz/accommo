@@ -12,6 +12,8 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       # Additional pre-build commands if needed
+      - mv /var/www/html/backend/vendor /var/www/vendor_backup
+      - mv /var/www/html/frontend/node_modules /var/www/node_modules_backup
   build:
     commands:
       #- ls -al $CODEBUILD_SRC_DIR  # List the contents of the source directory
