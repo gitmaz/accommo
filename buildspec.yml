@@ -8,22 +8,48 @@ phases:
     commands:
       - echo "Installing PHP version 8.2 ..."
       - phpenv global 8.2
+
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
       # Additional pre-build commands if needed
-      - mv /var/www/html/backend/vendor /var/www/vendor_backup
-      - mv /var/www/html/frontend/node_modules /var/www/node_modules_backup
+
   build:
     commands:
       #- ls -al $CODEBUILD_SRC_DIR  # List the contents of the source directory
-      #- cd $CODEBUILD_SRC_DIR/backend # note: isntead, we do initial instalation of libraries manually and save the image and update stack config to use it
-      #- composer install
-      #- cd $CODEBUILD_SRC_DIR/frontend
-      #- npm install
-      #- npm run build
+
+      # Composer Install Logic
+      - echo "Checking for changes in composer.json..."
+      - HASH_BEFORE_COMPOSER=$(cat $CODEBUILD_SRC_DIR/backend/composer_hash.txt)
+      - HASH_AFTER_COMPOSER=$(md5sum $CODEBUILD_SRC_DIR/backend/composer.json | cut -d ' ' -f 1)
+
+      - if [ "$HASH_BEFORE_COMPOSER" != "$HASH_AFTER_COMPOSER" ]; then
+        echo "composer.json has changed. Running composer install...";
+        cd $CODEBUILD_SRC_DIR/backend && composer install;
+        echo "$HASH_AFTER_COMPOSER" > $CODEBUILD_SRC_DIR/backend/composer_hash.txt;
+        else
+        echo "No changes in composer.json. Skipping composer install.";
+        fi
+
+      # NPM Install Logic
+      - echo "Checking for changes in package.json..."
+      - HASH_BEFORE_NPM=$(cat $CODEBUILD_SRC_DIR/frontend/npm_hash.txt)
+      - HASH_AFTER_NPM=$(md5sum $CODEBUILD_SRC_DIR/frontend/package.json | cut -d ' ' -f 1)
+
+      - if [ "$HASH_BEFORE_NPM" != "$HASH_AFTER_NPM" ]; then
+        echo "package.json has changed. Running npm install...";
+        cd $CODEBUILD_SRC_DIR/frontend && npm install;
+        echo "$HASH_AFTER_NPM" > $CODEBUILD_SRC_DIR/frontend/npm_hash.txt;
+        else
+        echo "No changes in package.json. Skipping npm install.";
+        fi
+
+      - cd $CODEBUILD_SRC_DIR/frontend
+      - npm run build
+
   post_build:
     commands:
       - echo Build completed on `date`
+
 artifacts:
   files: '**/*'
