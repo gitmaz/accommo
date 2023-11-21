@@ -6,7 +6,7 @@
       <option v-for="area in areas" :key="area.id" :value="area.id">{{ area.name }}</option>
     </select>
 
-    <label for="suburbDropdown">Select Suburb: </label>
+    <label for="suburbDropdown">&nbsp;&nbsp;Select Suburb: </label>
     <select id="suburbDropdown" v-model="selectedSuburb" @change="handleAreaOrSuburbChange('suburb')">
       <option v-for="suburb in suburbs" :key="suburb.id" :value="suburb.id">{{ suburb.name }}</option>
     </select>
