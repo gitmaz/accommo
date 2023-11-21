@@ -4,7 +4,7 @@ phases:
   install:
     runtime-versions:
       php: 8.2
-      # nodejs: 18
+      nodejs: 18
     commands:
       - echo "Installing PHP version 8.2 ..."
       - phpenv global 8.2
@@ -18,7 +18,7 @@ phases:
     commands:
       - if [ -e "$CODEBUILD_SRC_DIR/.!code-build" ]; then
         cd $CODEBUILD_SRC_DIR/backend && composer install;
-        cd $CODEBUILD_SRC_DIR/frontend && npm install && npm run build;
+        #cd $CODEBUILD_SRC_DIR/frontend && npm install && npm run build;
         else
         echo ".!code-build not found. Skipping library installations.";
         fi
