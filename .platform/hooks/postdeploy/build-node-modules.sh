@@ -1,3 +1,4 @@
+#!/bin/bash
 pm2 stop accommo-app
 cd /var/www/html/frontend/
 sudo rm -rf node_modules
