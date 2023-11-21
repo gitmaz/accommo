@@ -12,13 +12,12 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
-      # Additional pre-build commands if needed
+      # Additional pre-build commands if needed #cd $CODEBUILD_SRC_DIR/frontend && npm install && npm run build;
 
   build:
     commands:
       - if [ -e "$CODEBUILD_SRC_DIR/.!code-build" ]; then
         cd $CODEBUILD_SRC_DIR/backend && composer install;
-        #cd $CODEBUILD_SRC_DIR/frontend && npm install && npm run build;
         else
         echo ".!code-build not found. Skipping library installations.";
         fi
